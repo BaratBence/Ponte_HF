@@ -1,13 +1,11 @@
 package com.Ponte_HF_C.Ponte_HF_C.model;
 
-
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+//Class containing a single profile
 @Entity
 @Table(name = "languageProfile")
 public class LanguageProfile {
@@ -50,7 +48,7 @@ public class LanguageProfile {
         this.languageItems = languageItems;
     }
 
-
+    //creates a score based on how close the triplets are
     public int calculateScore(LanguageProfile languageProfile) {
         int score = 0;
         for(LanguageItem triplet : languageItems) {

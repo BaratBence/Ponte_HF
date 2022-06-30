@@ -8,16 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
-
+//Class responsible for teaching the program with the provided languages
 @Component
 public class LanguageTrainingProcessor {
     @Autowired
     private LanguageProfileRepository languageProfileRepository;
     @Autowired
     private LanguageItemRepository languageItemRepository;
-    private LanguageProfiler languageProfiler = new LanguageProfiler();
+    private final LanguageProfiler languageProfiler = new LanguageProfiler();
 
     public void train() {
+        //if there is no knowledge of the languages it will create and save their profile
         if(languageProfileRepository.findAll().isEmpty()) {
             LanguageProfile profile = languageProfiler.createProfileFromFile("en");
             profile.setLanguageName("English");

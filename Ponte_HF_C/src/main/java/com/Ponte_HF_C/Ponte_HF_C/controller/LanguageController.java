@@ -18,12 +18,13 @@ public class LanguageController {
     @Autowired
     private LanguageProfileRepository languageProfileRepository;
     LanguageProfiler languageProfiler = new LanguageProfiler();
-
+    //Endpoint requiring a singe text and will reply with the language
     @PostMapping
     public ResponseEntity<String> identifyLanguage(@RequestBody String text)  {
         LanguageProfile profile  = languageProfiler.createProfileFromString(text);
         int minScore = -1;
         String language = "";
+        //Check for each learned language
         ArrayList<LanguageProfile> profiles = (ArrayList<LanguageProfile>) languageProfileRepository.findAll();
         for (LanguageProfile languages : profiles) {
             int score = languages.calculateScore(profile);

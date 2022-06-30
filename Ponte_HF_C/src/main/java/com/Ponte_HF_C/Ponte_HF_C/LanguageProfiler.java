@@ -10,10 +10,12 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//Class to clean and create a language profile
 public class LanguageProfiler {
 
     ArrayList<String> triplets = new ArrayList<>();
 
+    //Creates a profile from file, cleans it first line by line
     public LanguageProfile createProfileFromFile(String languageName) {
         Path rootDir = Paths.get(".").normalize().toAbsolutePath();
         try {
@@ -30,24 +32,28 @@ public class LanguageProfiler {
         }
     }
 
+    //Creates profile from given text
     public LanguageProfile createProfileFromString(String text) {
         text = cleanLine(text);
         createTriplets(text);
         return createLanguageDescription();
     }
 
+    //Cleans the give text from extra spaces or unnecessary characters
     private String cleanLine(String line) {
         line = line.toLowerCase();
         line  = line.replaceAll("\\s{2,}", " ").trim();
         return line.replaceAll("[\\t\\r\\n\".!?:,;_-]", "");
     }
 
+    //creates the triplets from the cleaned text
     private void createTriplets(String line) {
         for(int i=0; i<line.length()-2; i++) {
             triplets.add(line.substring(i,i+3));
         }
     }
 
+    //Creates the profile with the 100 most used triplets
     private LanguageProfile createLanguageDescription() {
         Map<String, Long> counts = triplets.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
         List<Map.Entry<String, Long> > list = new LinkedList<>(counts.entrySet());
@@ -63,6 +69,7 @@ public class LanguageProfiler {
                 profile.getLanguageItems().add(new LanguageItem(profile, list.get(i - 1).getKey()));
             }
         }
+        triplets = new ArrayList<>();
         return profile;
     }
 }

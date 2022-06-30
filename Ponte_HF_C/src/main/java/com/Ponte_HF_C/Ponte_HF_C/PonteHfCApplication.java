@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+//Entry point of the application
 @SpringBootApplication
 public class PonteHfCApplication implements CommandLineRunner {
 
@@ -13,6 +14,7 @@ public class PonteHfCApplication implements CommandLineRunner {
 	LanguageTrainingProcessor languageTrainingProcessor;
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(PonteHfCApplication.class, args);
 	}
 

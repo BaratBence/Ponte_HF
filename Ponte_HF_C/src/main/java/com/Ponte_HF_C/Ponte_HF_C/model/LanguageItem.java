@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+//Language item containing one of the triplets
 @Entity
 public class LanguageItem {
     @Id

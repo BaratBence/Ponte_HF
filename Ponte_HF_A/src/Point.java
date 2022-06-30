@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 
+//Class to represent each point in the graph
 public class Point {
+    //name of the point
     private final int id;
+    //number of edges
     private int edges;
     private ArrayList<Point> neighbors;
 

@@ -3,16 +3,18 @@ import exception.WrongArgumentException;
 import java.sql.*;
 import java.util.ArrayList;
 
+//Class that manages the database
 public class DataBaseManager {
     private Connection connection = null;
 
-
+    //creates the connection upon creating the class
     public DataBaseManager() throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
         connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testdb", "postgres", "admin");
     }
 
 
+    //Creates a table with the given columns and table name
     public void createTable(String tableName, String[] columnName, String[] type) {
         try {
             if(columnName.length != type.length) throw new WrongArgumentException();
@@ -38,6 +40,7 @@ public class DataBaseManager {
         }
     }
 
+    //Inserts a record in to the database
     public void addRecord(String tableName, Point start, Point end) {
         try {
             Statement statement = connection.createStatement();
@@ -50,6 +53,7 @@ public class DataBaseManager {
         }
     }
 
+    //reads all the given input graph
     public ArrayList<Point> readRecords() {
         ArrayList<Point> points = new ArrayList<>();
         try {
@@ -59,12 +63,14 @@ public class DataBaseManager {
                 int startId = result.getInt("point_start");
                 int endId = result.getInt("point_end");
 
+                //if the point does not exist creates one
                 if(getPoint(startId, points)==null) {
                     points.add(new Point(startId));
                 }
                 if(getPoint(endId, points)==null) {
                     points.add(new Point(endId));
                 }
+                //sets the neighbors for the points
                 Point startPoint = getPoint(startId, points);
                 Point endPoint = getPoint(endId, points);
                 startPoint.addNeighbor(endPoint);
@@ -81,7 +87,7 @@ public class DataBaseManager {
         }
         return points;
     }
-
+    //checks if the table with the given exists
     public boolean tableExists(String tableName) {
         try {
             DatabaseMetaData meta = connection.getMetaData();
@@ -92,7 +98,7 @@ public class DataBaseManager {
             throw new RuntimeException(e);
         }
     }
-
+    //closes the database connection
     public void closeConnection() {
         try {
             connection.close();
@@ -100,7 +106,7 @@ public class DataBaseManager {
             throw new RuntimeException(e);
         }
     }
-
+    //returns a certain point with the given id from a list of points
     private Point getPoint(int id, ArrayList<Point> points){
         for(Point point: points) {
             if(point.getId() == id) return point;
